@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.image as mp_img
 import matplotlib.pyplot as mp_plt
 import tensorflow as tf
-import numpy as np
 import matplotlib.pyplot as plt
 import random as r
 from tensorflow import keras
@@ -17,14 +16,14 @@ from tensorflow.keras.optimizers import Adam
 from keras import backend as keras
 
 
-image_path = 'image\image'
-mask_path = 'mask\mask'
+image_path = '/home/user/EE21B013/AISD/image'
+mask_path = '/home/user/EE21B013/AISD/mask'
 
 
 def image_train_test_val_split(path):
-    train_data = r"C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/train image"
-    test_data = r"C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/test image"
-    validation_data = r"C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/validation image"
+    train_data = r"/home/user/EE21B013/AISD/train image"
+    test_data = r"/home/user/EE21B013/AISD/test image"
+    validation_data = r"/home/user/EE21B013/AISD/validation image"
     if not os.path.exists(train_data) and not os.path.exists(test_data) and not os.path.exists(validation_data):
         os.makedirs(train_data)
         os.makedirs(test_data)
@@ -49,9 +48,9 @@ def image_train_test_val_split(path):
             
             
 def mask_train_test_val_split(path):
-    train_data = r"C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/train mask"
-    test_data = r"C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/test mask"
-    validation_data = r"C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/validation mask"
+    train_data = r"/home/user/EE21B013/AISD/train mask"
+    test_data = r"/home/user/EE21B013/AISD/test mask"
+    validation_data = r"/home/user/EE21B013/AISD/validation mask"
     if not os.path.exists(train_data) and not os.path.exists(test_data) and not os.path.exists(validation_data):
         os.makedirs(train_data)
         os.makedirs(test_data)
@@ -125,22 +124,22 @@ def unet(i_t, m_t, i_v, m_v, i_test, m_test, input_size = (512,512,1)):
     conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
 
     model = Model(inputs, conv10)
-    model.compile(optimizer = Adam(), loss='categorical_crossentropy', metrics=['dice_coef', 'accuracy'])
-    model.summary()
-    model.fit(i_t, m_t, batch_size=200, epochs=40, verbose=1, shuffle=True, validation_data=(i_v, m_v))
+    model.compile(optimizer = Adam(), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.summary() 
+    model.fit(i_t, m_t, batch_size=10, epochs=40, verbose=1, shuffle=True, validation_data=(i_v, m_v))
     model.evaluate(i_test, m_test)
-    prediction  = model.predict(image_test)
+    prediction  = model.predict(i_test)
     print(prediction)
 
 
 image_train_test_val_split(image_path)
 mask_train_test_val_split(mask_path)
-image_train_data = load_data('C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/train image')
-mask_train_data = load_data('C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/train mask')
-image_test_data = load_data('C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/test image')
-mask_test_data = load_data('C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/test mask')
-image_validation_data = load_data('C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/validation image')
-mask_validation_data = load_data('C:/Users/divya/OneDrive - iittp.ac.in/Attachments/Documents/IIT/DLH/Project DLH/validation mask')
+image_train_data = load_data('/home/user/EE21B013/AISD/train image')
+mask_train_data = load_data('/home/user/EE21B013/AISD/train mask')
+image_test_data = load_data('/home/user/EE21B013/AISD/test image')
+mask_test_data = load_data('/home/user/EE21B013/AISD/test mask')
+image_validation_data = load_data('/home/user/EE21B013/AISD/validation image')
+mask_validation_data = load_data('/home/user/EE21B013/AISD/validation mask')
 image_train = np.array(image_train_data)
 mask_train = np.array(mask_train_data)
 image_test = np.array(image_test_data)
