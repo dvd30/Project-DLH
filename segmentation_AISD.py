@@ -6,6 +6,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import random as r
+from tensorflow import keras
 import math
 from keras.models import Model
 from keras.layers import Dense, Dropout, Activation, Flatten
@@ -126,8 +127,8 @@ def unet(i_t, m_t, i_v, m_v, i_test, m_test, input_size = (512,512,1)):
     model = Model(inputs, conv10)
     model.compile(optimizer = Adam(), loss='categorical_crossentropy', metrics=['dice_coef', 'accuracy'])
     model.summary()
-    model.fit(image_train, mask_train, batch_size=1, epochs=40, verbose=1, shuffle=True, validation_data=(image_test, mask_test))
-    model.evaluate(image_test, mask_test)
+    model.fit(i_t, m_t, batch_size=200, epochs=40, verbose=1, shuffle=True, validation_data=(i_v, m_v))
+    model.evaluate(i_test, m_test)
     prediction  = model.predict(image_test)
     print(prediction)
 
@@ -152,5 +153,5 @@ print(len(image_test))
 print(len(mask_test))
 print(len(image_validation))
 print(len(mask_validation))
-unet()
+unet(image_train, mask_train, image_validation, mask_validation, image_test, mask_test)
 print("Model Trained")
