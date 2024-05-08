@@ -84,7 +84,7 @@ def load_data(path):
     return data
 
 
-def unet(input_size = (512,512,1)):
+def unet(i_t, m_t, i_v, m_v, i_test, m_test, input_size = (512,512,1)):
     inputs = Input(input_size)
     #down convolution and max-pooling
     conv1 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(inputs)
@@ -124,9 +124,12 @@ def unet(input_size = (512,512,1)):
     conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
 
     model = Model(inputs, conv10)
-    model.compile(optimizer = Adam(), loss='binary_crossentropy', metrics=['dice_coef', 'accuracy'])
+    model.compile(optimizer = Adam(), loss='categorical_crossentropy', metrics=['dice_coef', 'accuracy'])
     model.summary()
-    return model
+    model.fit(image_train, mask_train, batch_size=1, epochs=40, verbose=1, shuffle=True, validation_data=(image_test, mask_test))
+    model.evaluate(image_test, mask_test)
+    prediction  = model.predict(image_test)
+    print(prediction)
 
 
 image_train_test_val_split(image_path)
@@ -149,9 +152,5 @@ print(len(image_test))
 print(len(mask_test))
 print(len(image_validation))
 print(len(mask_validation))
-unet_model = unet()
-unet_model.fit(image_train, mask_train, batch_size=1, epochs=40, verbose=1, shuffle=True, validation_data=(image_test, mask_test))
-unet_model.evaluate(image_test, mask_test)
-prediction  = unet_model.predict(image_test_data)
-print(prediction)
+unet()
 print("Model Trained")
