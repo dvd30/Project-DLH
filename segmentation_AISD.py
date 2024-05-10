@@ -16,14 +16,14 @@ from tensorflow.keras.optimizers import Adam
 from keras import backend as keras
 
 
-image_path = '/home/user/EE21B013/AISD/image'
-mask_path = '/home/user/EE21B013/AISD/mask'
+image_path = '/home/user/EE21B013/AISD/Project-DLH/image'
+mask_path = '/home/user/EE21B013/AISD/Project-DLH/mask'
 
 
 def image_train_test_val_split(path):
-    train_data = r"/home/user/EE21B013/AISD/train image"
-    test_data = r"/home/user/EE21B013/AISD/test image"
-    validation_data = r"/home/user/EE21B013/AISD/validation image"
+    train_data = r"/home/user/EE21B013/AISD/Project-DLH/train image"
+    test_data = r"/home/user/EE21B013/AISD/Project-DLH/test image"
+    validation_data = r"/home/user/EE21B013/AISD/Project-DLH/validation image"
     if not os.path.exists(train_data) and not os.path.exists(test_data) and not os.path.exists(validation_data):
         os.makedirs(train_data)
         os.makedirs(test_data)
@@ -48,9 +48,9 @@ def image_train_test_val_split(path):
             
             
 def mask_train_test_val_split(path):
-    train_data = r"/home/user/EE21B013/AISD/train mask"
-    test_data = r"/home/user/EE21B013/AISD/test mask"
-    validation_data = r"/home/user/EE21B013/AISD/validation mask"
+    train_data = r"/home/user/EE21B013/AISD/Project-DLH/train mask"
+    test_data = r"/home/user/EE21B013/AISD/Project-DLH/test mask"
+    validation_data = r"/home/user/EE21B013/AISD/Project-DLH/validation mask"
     if not os.path.exists(train_data) and not os.path.exists(test_data) and not os.path.exists(validation_data):
         os.makedirs(train_data)
         os.makedirs(test_data)
@@ -134,12 +134,12 @@ def unet(i_t, m_t, i_v, m_v, i_test, m_test, input_size = (512,512,1)):
 
 image_train_test_val_split(image_path)
 mask_train_test_val_split(mask_path)
-image_train_data = load_data('/home/user/EE21B013/AISD/train image')
-mask_train_data = load_data('/home/user/EE21B013/AISD/train mask')
-image_test_data = load_data('/home/user/EE21B013/AISD/test image')
-mask_test_data = load_data('/home/user/EE21B013/AISD/test mask')
-image_validation_data = load_data('/home/user/EE21B013/AISD/validation image')
-mask_validation_data = load_data('/home/user/EE21B013/AISD/validation mask')
+image_train_data = load_data('/home/user/EE21B013/AISD/Project-DLH/train image')
+mask_train_data = load_data('/home/user/EE21B013/AISD/Project-DLH/train mask')
+image_test_data = load_data('/home/user/EE21B013/AISD/Project-DLH/test image')
+mask_test_data = load_data('/home/user/EE21B013/AISD/Project-DLH/test mask')
+image_validation_data = load_data('/home/user/EE21B013/AISD/Project-DLH/validation image')
+mask_validation_data = load_data('/home/user/EE21B013/AISD/Project-DLH/validation mask')
 image_train = np.array(image_train_data)
 mask_train = np.array(mask_train_data)
 image_test = np.array(image_test_data)
